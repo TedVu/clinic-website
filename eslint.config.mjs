@@ -9,6 +9,7 @@ export default defineConfig([
     ".next/**",
     "out/**",
     ".e2e/**",
+    ".wrangler/**",
     "public/images/**",
     "test-results/**",
     "playwright-report/**",

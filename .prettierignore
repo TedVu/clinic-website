@@ -8,3 +8,4 @@ openspec
 .claude
 package-lock.json
 review-screenshots
+.wrangler

@@ -8,31 +8,33 @@ Steps to take the site from preview to live. Most of what makes a local clinic f
 - [ ] The clinic owner has checked with **Sở Y tế TP. Hồ Chí Minh** whether the site's content needs advertising approval (xác nhận nội dung quảng cáo dịch vụ khám bệnh, chữa bệnh). The site makes no claims, but approval may still be required.
 - [ ] Both doctors have reviewed their profile and the services they confirmed, on a preview URL.
 
-## 1. Cloudflare Pages
+## 1. Cloudflare (Workers with static assets)
 
-1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**, and pick this repository.
-2. Build settings:
-   - Framework preset: **None**
+The site deploys as a Cloudflare Worker that only serves static files. `wrangler.jsonc` in the repo points Wrangler at `out/`, which also stops Cloudflare from auto-installing the OpenNext server adapter (that adapter is for server-rendered Next.js and fails on a static export).
+
+1. Cloudflare dashboard → **Workers & Pages** → **Create** → **Import a repository**, and pick this repository.
+2. Build settings (**Settings → Build**):
    - Build command: `npm run build`
-   - Build output directory: `out`
-   - Node version: set environment variable `NODE_VERSION` = `24` (or the current LTS).
-3. Environment variables (**Settings → Variables and secrets**):
+   - Deploy command: `npx wrangler deploy`
+   - Root directory: `/`
+3. **Build** variables (**Settings → Build → Variables and secrets**, not the Worker's runtime variables, because the site reads them at build time):
 
-   | Variable | Production | Preview |
-   | --- | --- | --- |
-   | `SITE_ENV` | `production` | `preview` |
-   | `NODE_VERSION` | `24` | `24` |
+   | Variable | Value |
+   | --- | --- |
+   | `SITE_ENV` | `production` |
+   | `NODE_VERSION` | `24` |
 
-   With `SITE_ENV=production`, the build **fails** while any launch-blocking fact is missing, so a half-filled site can never go live. Preview builds always succeed, show "Cần bổ sung" markers for missing facts, and are `noindex`.
-4. Production branch: `main`. Every other branch and pull request gets its own preview URL.
-5. Check a preview deploy: placeholders visible, `/robots.txt` says `Disallow: /`, and each page has `<meta name="robots" content="noindex, nofollow">`.
+   With `SITE_ENV=production`, the build **fails** while any launch-blocking fact is missing, so a half-filled site can never go live. Check the build log shows `Content check (production)`; `Content check (development)` means the variable is missing and the live site would be `noindex`.
+4. Production branch: `main`. Build variables apply to every branch, so preview builds of other branches are also built in production mode. Either turn off non-production branch builds, or review changes locally with `npm run build && npm run serve` (preview mode, markers visible).
+5. Check the `*.workers.dev` URL: pages load, `/robots.txt` says `Allow: /`, and an unknown path shows the 404 page.
 
-Cloudflare Pages serves `/san-khoa` from `san-khoa.html` and `out/404.html` for unknown paths, so no redirect or rewrite rules are needed.
+`wrangler.jsonc` serves `/san-khoa` from `san-khoa.html`, redirects `/san-khoa/` to `/san-khoa`, and returns `out/404.html` with a 404 status for unknown paths. `public/_headers` gives hashed Next.js files a one-year cache. Test locally with `npx wrangler dev` after a build.
 
 ## 2. Domain
 
 - Prefer a **`.vn`** domain (registered through a Vietnamese registrar accredited by VNNIC). A country-code domain is a direct signal to Google that the site serves Vietnam.
-- In Cloudflare Pages → **Custom domains**, add the domain (and `www`, redirecting to the main one).
+- Add the domain to Cloudflare (**Add a site**, Free plan) and switch the registrar's nameservers to the two Cloudflare gives you.
+- In the Worker → **Settings → Domains & Routes → Add → Custom domain**, add `phongkhamsannhi.com`, plus `www.phongkhamsannhi.com` with a redirect rule to the main domain.
 - Set `clinic.siteUrl` in `src/content/vi/clinic.ts` to the final address (`https://…`, no trailing slash). Canonical URLs, the sitemap and structured data all use it.
 - Check after deploy: `https://<domain>/` returns 200, `/robots.txt` says `Allow: /` and lists the sitemap.
 
@@ -69,4 +71,4 @@ This drives the map results ("phòng khám sản nhi gần đây", "khám thai q
 
 ## Rollback
 
-Cloudflare Pages → the project → **Deployments** → pick the last good deployment → **Rollback to this deployment**. It takes effect immediately, and there is no data to migrate.
+Cloudflare dashboard → the Worker → **Deployments** → pick the last good version → **Rollback**. It takes effect immediately, and there is no data to migrate.

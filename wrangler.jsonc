@@ -1,0 +1,16 @@
+{
+  // Static site on Cloudflare Workers (static assets only, no server code).
+  // Cloudflare's build runs `npm run build`, which writes the exported site to out/;
+  // `npx wrangler deploy` then uploads out/ as-is. Having this file also stops Wrangler from
+  // auto-configuring the OpenNext server adapter, which doesn't apply to a static export.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "clinic-website",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    // /san-khoa is served from san-khoa.html; /san-khoa/ redirects to the canonical /san-khoa.
+    "html_handling": "drop-trailing-slash",
+    // Unknown paths get out/404.html with a 404 status.
+    "not_found_handling": "404-page",
+  },
+}

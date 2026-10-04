@@ -11,7 +11,7 @@ npm install
 npm run dev              # local development at http://localhost:3000
 npm run content:report   # what the clinic still needs to supply
 npm run build            # static site in out/ (runs the image and content steps first)
-npm run serve            # serve out/ at http://localhost:4000, like Cloudflare Pages
+npm run serve            # serve out/ at http://localhost:4000 (or: npx wrangler dev, after a build)
 npm run lint
 npm run typecheck
 npm test                 # unit tests (Vitest)

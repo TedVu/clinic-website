@@ -23,3 +23,7 @@ coverage/
 # os / editor
 .DS_Store
 Thumbs.db
+
+# cloudflare
+.wrangler/
+.dev.vars*
