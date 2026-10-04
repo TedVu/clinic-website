@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# generated at build time from assets/photos
+public/images/
+
+# tests
+.e2e/
+test-results/
+review-screenshots/
+playwright-report/
+coverage/
+
+# env
+.env*.local
+
+# os / editor
+.DS_Store
+Thumbs.db

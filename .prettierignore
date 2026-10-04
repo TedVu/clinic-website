@@ -1,0 +1,10 @@
+.next
+out
+.e2e
+public/images
+test-results
+playwright-report
+openspec
+.claude
+package-lock.json
+review-screenshots
