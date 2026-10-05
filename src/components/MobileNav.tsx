@@ -30,7 +30,14 @@ export function MobileNav({ items, bookingHref, labels, children }: Props) {
       if (event.key === "Escape") close(true);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    // The open menu covers the page; stop the page behind it from scrolling.
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      root.style.overflow = previousOverflow;
+    };
   }, [open, close]);
 
   return (
@@ -53,7 +60,9 @@ export function MobileNav({ items, bookingHref, labels, children }: Props) {
       <div
         id={panelId}
         hidden={!open}
-        className="absolute inset-x-0 top-full z-50 border-b border-rule bg-paper"
+        // Fills the screen below the header (100% = the header's height), so page content such as
+        // the hero's buttons never shows through underneath the menu.
+        className="absolute inset-x-0 top-full z-50 h-[calc(100dvh-100%)] overflow-y-auto overscroll-contain bg-paper"
       >
         <nav aria-label={labels.nav} className="container-page pb-6">
           <ul className="divide-y divide-rule">

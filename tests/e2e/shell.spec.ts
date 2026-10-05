@@ -66,6 +66,21 @@ test.describe("mobile navigation", () => {
     await expect(panelLinks.first()).toBeHidden();
   });
 
+  test("open menu covers the page below the header and stops it scrolling", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Mở menu" }).click();
+    const panel = page.locator("header [id]:has(nav)");
+    const box = (await panel.boundingBox())!;
+    const header = (await page.locator("header").boundingBox())!;
+    // Starts at the header's bottom edge and reaches the bottom of the screen, so nothing shows through.
+    expect(Math.abs(box.y - (header.y + header.height))).toBeLessThanOrEqual(1);
+    expect(box.y + box.height).toBeGreaterThanOrEqual(PHONE.height - 1);
+    expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe("hidden");
+
+    await page.keyboard.press("Escape");
+    expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe("");
+  });
+
   test("Escape closes the menu and returns focus to the button", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Mở menu" }).click();
