@@ -11,12 +11,12 @@ import { PageShell } from "../PageShell";
 import { ResponsiveImage } from "../ResponsiveImage";
 
 export function ClinicPage({ locale }: { locale: Locale }) {
-  const { clinic, copy } = getContent(locale);
+  const { clinic, copy, services } = getContent(locale);
   const t = getDictionary(locale);
 
   return (
     <PageShell locale={locale} current="clinic">
-      <JsonLd data={medicalClinicJsonLd(clinic)} />
+      <JsonLd data={medicalClinicJsonLd(clinic, services)} />
       <PageHeader
         locale={locale}
         crumbs={[

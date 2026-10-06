@@ -1,6 +1,7 @@
-import { isSupplied } from "@/content/pending";
-import type { Clinic, DayOfWeek, Doctor, SpecialtyKey } from "@/content/schema";
+import { isSupplied, type Fact } from "@/content/pending";
+import type { Clinic, DayOfWeek, Doctor, Photo, Service, SpecialtyKey } from "@/content/schema";
 import { mapsHref } from "./content-helpers";
+import { getImage, loadImageManifest, type ImageManifest } from "./image-manifest";
 import { siteUrl } from "./metadata";
 import { doctorHref } from "./routes";
 
@@ -33,7 +34,27 @@ export function clinicId(): string {
   return `${siteUrl()}/#clinic`;
 }
 
-export function medicalClinicJsonLd(clinic: Clinic): JsonLd {
+/** Absolute URL of a photo's largest WebP variant; JSON-LD needs absolute URLs. */
+export function photoUrl(
+  photo: Fact<Photo>,
+  manifest: ImageManifest = loadImageManifest(),
+): string | undefined {
+  if (!isSupplied(photo)) return undefined;
+  const largest = getImage(photo.image, manifest).webp.reduce((a, b) => (b.width > a.width ? b : a));
+  return `${siteUrl()}${largest.src}`;
+}
+
+/** Only the URLs actually supplied; undefined (property omitted) when there are none. */
+function suppliedUrls(...facts: Fact<string | string[]>[]): string[] | undefined {
+  const urls = facts.filter(isSupplied).flat();
+  return urls.length > 0 ? urls : undefined;
+}
+
+export function medicalClinicJsonLd(
+  clinic: Clinic,
+  services: Service[],
+  manifest: ImageManifest = loadImageManifest(),
+): JsonLd {
   const { street, ward, city, country } = clinic.address;
   const address =
     isSupplied(street) && isSupplied(ward)
@@ -68,17 +89,44 @@ export function medicalClinicJsonLd(clinic: Clinic): JsonLd {
         }))
       : undefined,
     medicalSpecialty: [SPECIALTY_URI.obstetrics, SPECIALTY_URI.pediatrics],
+    image: photoUrl(clinic.photos.hero, manifest),
+    // The district people search by; the postal address above keeps the official ward.
+    areaServed: [
+      { "@type": "AdministrativeArea", name: clinic.district },
+      { "@type": "City", name: clinic.address.city },
+    ],
+    // Confirmed only, on every build: structured data never advertises an unconfirmed service.
+    availableService: services
+      .filter((s) => s.confirmed)
+      .map((s) => ({ "@type": "MedicalProcedure", name: s.name, description: s.summary })),
+    sameAs: suppliedUrls(
+      clinic.profiles.googleBusiness,
+      clinic.profiles.facebook,
+      clinic.profiles.directories,
+    ),
+    // No aggregateRating or review: search engines disallow self-serving review markup.
   });
 }
 
-export function physicianJsonLd(doctor: Doctor, clinic: Clinic): JsonLd {
+export function physicianJsonLd(
+  doctor: Doctor,
+  clinic: Clinic,
+  jobTitle: string,
+  manifest: ImageManifest = loadImageManifest(),
+): JsonLd {
   return compact({
     "@context": "https://schema.org",
-    "@type": "Physician",
+    // Schema.org's Physician is an organization type; adding Person makes jobTitle and worksFor
+    // valid and describes the doctor as an individual.
+    "@type": ["Person", "Physician"],
     name: `${doctor.title} ${doctor.name}`,
     url: `${siteUrl()}${doctorHref(doctor.slug)}`,
+    jobTitle,
     medicalSpecialty: SPECIALTY_URI[doctor.specialty],
     description: isSupplied(doctor.summary) ? doctor.summary : undefined,
+    image: photoUrl(doctor.portrait, manifest),
+    knowsAbout: isSupplied(doctor.interests) ? doctor.interests : undefined,
+    sameAs: suppliedUrls(doctor.profiles),
     telephone: isSupplied(clinic.phone) ? clinic.phone : undefined,
     worksFor: { "@id": clinicId() },
   });

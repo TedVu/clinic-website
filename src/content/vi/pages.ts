@@ -2,43 +2,48 @@ import type { SiteCopy } from "../schema";
 
 export const copy: SiteCopy = {
   meta: {
-    homeTitle: "{clinic} – Sản khoa, Nhi khoa",
+    // Page titles get " | Sản Nhi Quận 3" appended (17 characters), so each title below stays
+    // within 48 characters to keep the full title inside the 65 that search results display.
+    homeTitle: "Phòng khám Sản Nhi Quận 3 – Khám thai, siêu âm, khám nhi",
     homeDescription:
-      "Phòng khám sản khoa và nhi khoa tại TP. Hồ Chí Minh. Sản khoa: BS. Vũ Duy Minh. Nhi khoa: BS. Nguyễn Thị Thanh Xuân. Đặt lịch qua điện thoại hoặc Zalo.",
+      "Phòng khám sản nhi tại Phường Bàn Cờ (Quận 3), TP.HCM. Khám thai, siêu âm thai: BS.CKII Vũ Duy Minh. Khám nhi: BS.CKI Nguyễn Thị Thanh Xuân. Đặt lịch qua điện thoại, Zalo.",
     obstetrics: {
-      title: "Sản khoa – BS. Vũ Duy Minh, TP. Hồ Chí Minh",
+      title: "Khám thai, siêu âm thai – BS.CKII Vũ Duy Minh",
       description:
-        "Khám thai, siêu âm thai và khám phụ khoa cùng BS.CKII Vũ Duy Minh tại TP. Hồ Chí Minh.",
+        "Khám thai, siêu âm thai và khám phụ khoa cùng BS.CKII Vũ Duy Minh, bác sĩ Bệnh viện Từ Dũ, tại phòng khám sản nhi Quận 3, TP.HCM.",
     },
     pediatrics: {
-      title: "Nhi khoa – BS. Nguyễn Thị Thanh Xuân, TP. Hồ Chí Minh",
+      title: "Khám nhi khoa – BS.CKI Nguyễn Thị Thanh Xuân",
       description:
-        "Khám, theo dõi sức khỏe và sự phát triển của trẻ cùng BS. Nguyễn Thị Thanh Xuân tại TP. Hồ Chí Minh.",
+        "Khám nhi, khám bệnh hô hấp và theo dõi sự phát triển của trẻ cùng BS.CKI Nguyễn Thị Thanh Xuân tại phòng khám sản nhi Quận 3, TP.HCM.",
     },
     doctors: {
-      title: "Bác sĩ Sản khoa và Nhi khoa tại TP. Hồ Chí Minh",
+      title: "Bác sĩ Sản khoa và Nhi khoa",
       description:
-        "Giới thiệu BS. Vũ Duy Minh (Sản khoa) và BS. Nguyễn Thị Thanh Xuân (Nhi khoa) tại phòng khám.",
+        "BS.CKII Vũ Duy Minh (Sản khoa) và BS.CKI Nguyễn Thị Thanh Xuân (Nhi khoa) tại phòng khám sản nhi Quận 3, TP.HCM.",
     },
     doctor: {
-      title: "{name} – Bác sĩ {specialty}, TP. Hồ Chí Minh",
-      description: "Thông tin về {name}, bác sĩ {specialtyLower} tại phòng khám, TP. Hồ Chí Minh.",
+      title: "{name} – Bác sĩ {specialty}",
+      description:
+        "{name}, bác sĩ {specialtyLower} tại phòng khám sản nhi Quận 3, TP.HCM: bằng cấp, kinh nghiệm và lĩnh vực chuyên môn.",
     },
     clinic: {
-      title: "Thông tin phòng khám – Địa chỉ, giờ làm việc",
-      description: "Địa chỉ, giờ làm việc, chỉ đường và những điều cần biết khi đến phòng khám.",
+      title: "Địa chỉ, giờ làm việc phòng khám",
+      description:
+        "Địa chỉ, giờ làm việc, chỉ đường và gửi xe khi đến phòng khám sản nhi tại Phường Bàn Cờ (Quận 3), TP.HCM.",
     },
     contact: {
       title: "Liên hệ – Điện thoại, Zalo, địa chỉ",
-      description: "Số điện thoại, Zalo, địa chỉ và giờ làm việc của phòng khám.",
+      description: "Số điện thoại, Zalo, địa chỉ và giờ làm việc của phòng khám sản nhi Quận 3, TP.HCM.",
     },
     booking: {
       title: "Đặt lịch khám qua điện thoại và Zalo",
-      description: "Cách đặt lịch khám sản khoa và nhi khoa qua điện thoại hoặc Zalo.",
+      description:
+        "Cách đặt lịch khám sản khoa và nhi khoa qua điện thoại hoặc Zalo tại phòng khám sản nhi Quận 3.",
     },
     privacy: {
       title: "Chính sách bảo mật",
-      description: "Chính sách bảo mật thông tin của website phòng khám.",
+      description: "Chính sách bảo mật thông tin của website phòng khám sản nhi Quận 3.",
     },
     notFound: {
       title: "Không tìm thấy trang",
@@ -46,9 +51,9 @@ export const copy: SiteCopy = {
     },
   },
   hero: {
-    eyebrow: "Sản khoa · Nhi khoa · TP. Hồ Chí Minh",
+    eyebrow: "Phòng khám Sản – Nhi tại Quận 3, TP.HCM",
     headline: "Chăm sóc sức khỏe cho mẹ và bé, từ những ngày đầu tiên.",
-    lead: "Phòng khám chuyên về sản khoa và nhi khoa tại TP. Hồ Chí Minh. BS. Vũ Duy Minh khám và theo dõi thai kỳ cho mẹ; BS. Nguyễn Thị Thanh Xuân khám và chăm sóc sức khỏe cho trẻ.",
+    lead: "Phòng khám chuyên về sản khoa và nhi khoa tại Phường Bàn Cờ (Quận 3), TP. Hồ Chí Minh. BS.CKII Vũ Duy Minh khám và theo dõi thai kỳ cho mẹ; BS.CKI Nguyễn Thị Thanh Xuân khám và chăm sóc sức khỏe cho trẻ.",
   },
   home: {
     specialtiesHeading: "Chuyên khoa",

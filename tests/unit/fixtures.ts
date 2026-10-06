@@ -1,11 +1,37 @@
 // Imports the Vietnamese content files directly (not "@/content") so tests can mock "@/content"
 // with this fixture without a circular import.
-import { pending } from "@/content/pending";
+import { isPending, pending } from "@/content/pending";
 import type { Clinic, Doctor, SiteContent } from "@/content/schema";
+import type { ImageManifest } from "@/lib/image-manifest";
 import { clinic } from "@/content/vi/clinic";
 import { doctors } from "@/content/vi/doctors";
 import { copy } from "@/content/vi/pages";
 import { services, specialties } from "@/content/vi/services";
+
+/**
+ * An image manifest covering every photo the content references, so structured-data tests do not
+ * depend on public/images/manifest.json (generated at build time, not committed).
+ */
+export function testManifest(): ImageManifest {
+  const names = [
+    ...Object.values(clinic.photos),
+    ...doctors.map((d) => d.portrait),
+  ].flatMap((photo) => (isPending(photo) ? [] : [photo.image]));
+  return Object.fromEntries(
+    names.map((name) => [
+      name,
+      {
+        width: 1200,
+        height: 1500,
+        avif: [{ width: 1200, src: `/images/${name}-1200.avif` }],
+        webp: [
+          { width: 480, src: `/images/${name}-480.webp` },
+          { width: 1200, src: `/images/${name}-1200.webp` },
+        ],
+      },
+    ]),
+  );
+}
 
 /** Seed content with every launch-blocking fact filled in with obvious test values. */
 export function completeContent(): SiteContent {
@@ -21,7 +47,13 @@ export function completeContent(): SiteContent {
       hours: [{ days: ["mon", "tue", "wed", "thu", "fri"], opens: "08:00", closes: "17:00" }],
       siteUrl: "https://example.vn",
       bookingSteps: ["Gọi điện hoặc nhắn Zalo."],
+      profiles: {
+        googleBusiness: "https://maps.google.com/?cid=1",
+        facebook: "https://www.facebook.com/phongkhamthunghiem",
+        directories: ["https://danhba.example/phong-kham-thu-nghiem"],
+      },
     },
+    doctors: seed.doctors.map((d) => ({ ...d, profiles: [`https://danhba.example/${d.slug}`] })),
     services: seed.services.map((s) => ({ ...s, confirmed: true })),
     copy: { ...seed.copy, privacy: { ...seed.copy.privacy, approved: true } },
   };
@@ -45,6 +77,11 @@ export function pendingClinic(): Clinic {
     whatToBring: pending("Giấy tờ cần mang theo"),
     bookingSteps: pending("Các bước đặt lịch"),
     siteUrl: pending("Tên miền"),
+    profiles: {
+      googleBusiness: pending("Google Business Profile"),
+      facebook: pending("Facebook"),
+      directories: pending("Danh bạ"),
+    },
   };
 }
 
@@ -61,5 +98,6 @@ export function pendingDoctor(index = 0): Doctor {
     experience: pending(`Kinh nghiệm của ${label}`),
     affiliations: pending(`Nơi công tác của ${label}`),
     interests: pending(`Lĩnh vực quan tâm của ${label}`),
+    profiles: pending(`Hồ sơ của ${label} trên các trang danh bạ`),
   };
 }

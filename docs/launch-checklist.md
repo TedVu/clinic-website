@@ -68,6 +68,15 @@ This drives the map results ("phòng khám sản nhi gần đây", "khám thai q
 - [ ] Run a Lighthouse mobile audit on the live home page (target 90+ in every category).
 - [ ] Share a page link in Zalo and check the preview card shows the title and image.
 - [ ] Whenever clinic details change, update `src/content/vi/clinic.ts` **and** the Google Business Profile on the same day.
+- [ ] After a deploy that changes page titles, use Search Console's URL Inspection → **Request indexing** on each page whose title changed, so search results pick up the new titles sooner.
+
+## 7. External profiles (`sameAs`)
+
+The site's structured data links the clinic and each doctor to their profiles elsewhere (`clinic.profiles` and each doctor's `profiles` in `src/content/vi/`). These links tell Google the website and those profiles are the same clinic or the same person, so a wrong one does real harm.
+
+- [ ] Before adding a URL, open it and confirm it shows **this** clinic's address (611/95 Điện Biên Phủ) and phone, or **this** doctor. Leave anything unconfirmed as `pending(...)`.
+- [ ] A page about one doctor goes in that doctor's `profiles`, never in the clinic's.
+- [ ] Still to collect: directory pages for BS. Nguyễn Thị Thanh Xuân. `npm run content:report` lists whatever is missing.
 
 ## Rollback
 

@@ -24,22 +24,21 @@ export function HomePage({ locale }: { locale: Locale }) {
 
   return (
     <PageShell locale={locale} current="home">
-      <JsonLd data={medicalClinicJsonLd(clinic)} />
+      <JsonLd data={medicalClinicJsonLd(clinic, services)} />
 
       <section
         aria-labelledby="hero-heading"
         className="container-page grid gap-10 pb-12 pt-8 md:pb-20 md:pt-16 lg:grid-cols-12 lg:items-center lg:gap-14"
       >
         <div className="lg:col-span-7">
-          <p className="text-eyebrow font-medium text-accent">
+          {/* The small line is the H1 so the page's main heading names what and where; the
+              large headline below is display copy. */}
+          <h1 id="hero-heading" className="text-eyebrow font-medium text-accent">
             {copy.hero.eyebrow}
-          </p>
-          <h1
-            id="hero-heading"
-            className="mt-3 max-w-[20ch] text-[1.889rem] leading-[1.25] md:text-[2.667rem] md:leading-[1.2]"
-          >
-            {copy.hero.headline}
           </h1>
+          <p className="mt-3 max-w-[20ch] text-[1.889rem] leading-[1.25] font-semibold tracking-[-0.005em] text-balance md:text-[2.667rem] md:leading-[1.2]">
+            {copy.hero.headline}
+          </p>
           <p className="mt-5 max-w-xl text-lead text-ink-muted">{copy.hero.lead}</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row md:mt-9">
             <Link href={clinic.bookingHref} className="btn btn-primary" data-booking-link="">

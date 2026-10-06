@@ -27,9 +27,17 @@ export type OpeningHours = {
 export type Photo = { image: string; alt: string };
 
 export type Clinic = {
+  /** Exactly as on the Google Business Profile; used wherever the clinic is named in full. */
   name: Fact<string>;
+  /** Short brand used only as the page-title suffix, e.g. "Sản Nhi Quận 3". */
+  shortName: string;
   /** Generic, always-true description, e.g. "Phòng khám Sản – Nhi". */
   descriptor: string;
+  /**
+   * District as people search for it, e.g. "Quận 3". Used in titles, copy and areaServed; the
+   * postal address keeps the official ward.
+   */
+  district: string;
   address: {
     street: Fact<string>;
     ward: Fact<string>;
@@ -58,11 +66,20 @@ export type Clinic = {
     hero: Fact<Photo>;
     interior: Fact<Photo>;
   };
+  /**
+   * The clinic's own profiles elsewhere, published as structured-data `sameAs`. Open each URL and
+   * confirm it is this clinic before adding it: a wrong link ties the site to another entity.
+   */
+  profiles: {
+    googleBusiness: Fact<string>;
+    facebook: Fact<string>;
+    directories: Fact<string[]>;
+  };
 };
 
 export type Doctor = {
   slug: string;
-  /** Professional title shown before the name, e.g. "BS." */
+  /** Professional title shown before the name, e.g. "BS.CKII". */
   title: string;
   name: string;
   specialty: SpecialtyKey;
@@ -74,6 +91,8 @@ export type Doctor = {
   experience: Fact<string[]>;
   affiliations: Fact<string[]>;
   interests: Fact<string[]>;
+  /** Listings about this doctor (not the clinic), published as `Physician.sameAs`. */
+  profiles: Fact<string[]>;
 };
 
 export type Specialty = {
@@ -117,7 +136,7 @@ export type SiteCopy = {
     notFound: PageMeta;
   };
   hero: {
-    /** Short line above the headline naming both specialties and the city. */
+    /** The home page's H1, shown as a short line above the headline: both specialties and the district. */
     eyebrow: string;
     headline: string;
     lead: string;

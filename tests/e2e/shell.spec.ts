@@ -110,8 +110,8 @@ test.describe("footer", () => {
   test("contains clinic details, doctors, navigation, privacy and disclaimer", async ({ page }, testInfo) => {
     await page.goto("/");
     const footer = page.locator("footer");
-    await expect(footer.getByRole("link", { name: "BS. Vũ Duy Minh" })).toBeVisible();
-    await expect(footer.getByRole("link", { name: "BS. Nguyễn Thị Thanh Xuân" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "BS.CKII Vũ Duy Minh" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "BS.CKI Nguyễn Thị Thanh Xuân" })).toBeVisible();
     await expect(footer.getByText("Sản khoa", { exact: true }).first()).toBeVisible();
     await expect(footer.getByRole("link", { name: "Chính sách bảo mật" })).toBeVisible();
     await expect(footer.getByText(/không thay thế cho việc thăm khám/)).toBeVisible();

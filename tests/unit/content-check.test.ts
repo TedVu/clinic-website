@@ -30,6 +30,22 @@ describe("checkContent", () => {
     expect(result.pending.every((item) => !item.blocking)).toBe(true);
   });
 
+  it("never blocks launch on a missing external profile", () => {
+    const profilePaths = [
+      "clinic.profiles.googleBusiness",
+      "clinic.profiles.facebook",
+      "clinic.profiles.directories",
+      ...getContent("vi").doctors.map((d) => `doctors.${d.slug}.profiles`),
+    ];
+    for (const path of profilePaths) {
+      expect(LAUNCH_BLOCKING as readonly string[]).not.toContain(path);
+    }
+    const content = completeContent();
+    content.clinic.profiles.facebook = pending("Facebook");
+    content.doctors[0]!.profiles = pending("Hồ sơ bác sĩ");
+    expect(checkContent(content).ok).toBe(true);
+  });
+
   it("fails when a specialty has no confirmed service", () => {
     const content = completeContent();
     content.services = content.services.map((s) =>

@@ -3,13 +3,13 @@ import { NotFoundContent } from "@/components/pages/NotFoundContent";
 import { PageShell } from "@/components/PageShell";
 import { getContent } from "@/content";
 import { beVietnam } from "@/lib/fonts";
-import { brandName } from "@/lib/metadata";
+import { shortBrand } from "@/lib/metadata";
 import "@/styles/globals.css";
 
 const { copy } = getContent("vi");
 
 export const metadata: Metadata = {
-  title: `${copy.meta.notFound.title} | ${brandName("vi")}`,
+  title: `${copy.meta.notFound.title} | ${shortBrand("vi")}`,
   description: copy.meta.notFound.description,
   robots: { index: false, follow: true },
 };

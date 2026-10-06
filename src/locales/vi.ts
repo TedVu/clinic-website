@@ -63,6 +63,8 @@ export const vi = {
     experience: "Kinh nghiệm lâm sàng",
     affiliations: "Nơi công tác",
     interests: "Lĩnh vực quan tâm",
+    /** Structured-data job title; "{specialty}" is the specialty name. */
+    jobTitle: "Bác sĩ {specialty}",
   },
   days: {
     mon: "Thứ Hai",

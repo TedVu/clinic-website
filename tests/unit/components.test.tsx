@@ -55,7 +55,7 @@ describe("DoctorProfile", () => {
   it("renders only name, specialty and links when nothing is supplied (production)", () => {
     vi.stubEnv("SITE_ENV", "production");
     const html = renderToStaticMarkup(<DoctorProfile doctor={seed} locale="vi" variant="full" />);
-    expect(html).toContain("BS. Vũ Duy Minh");
+    expect(html).toContain("BS.CKII Vũ Duy Minh");
     expect(html).toContain("Sản khoa");
     expect(html).toContain("Đặt lịch khám");
     expect(html).not.toContain("data-detail");
@@ -77,7 +77,7 @@ describe("DoctorProfile", () => {
     vi.stubEnv("SITE_ENV", "preview");
     const html = renderToStaticMarkup(<DoctorProfile doctor={seed} locale="vi" variant="full" />);
     expect(html.match(/data-detail=/g)).toHaveLength(5);
-    expect(html).toContain("Cần bổ sung: Ảnh chân dung BS. Vũ Duy Minh");
+    expect(html).toContain("Cần bổ sung: Ảnh chân dung BS.CKII Vũ Duy Minh");
   });
 });
 

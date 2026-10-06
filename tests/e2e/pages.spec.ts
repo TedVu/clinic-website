@@ -8,9 +8,12 @@ test.describe("home page", () => {
     await page.setViewportSize(PHONE);
     await page.goto("/");
     const h1 = page.locator("h1");
-    await expect(h1).toHaveText("Chăm sóc sức khỏe cho mẹ và bé, từ những ngày đầu tiên.");
-    await expect(page.locator("#hero-heading ~ p")).toContainText("BS. Vũ Duy Minh");
-    await expect(page.locator("#hero-heading ~ p")).toContainText("BS. Nguyễn Thị Thanh Xuân");
+    await expect(h1).toHaveText("Phòng khám Sản – Nhi tại Quận 3, TP.HCM");
+    const headline = page.locator("#hero-heading ~ p").nth(0);
+    const lead = page.locator("#hero-heading ~ p").nth(1);
+    await expect(headline).toHaveText("Chăm sóc sức khỏe cho mẹ và bé, từ những ngày đầu tiên.");
+    await expect(lead).toContainText("BS.CKII Vũ Duy Minh");
+    await expect(lead).toContainText("BS.CKI Nguyễn Thị Thanh Xuân");
 
     const book = page.locator('section[aria-labelledby="hero-heading"] a', {
       hasText: "Đặt lịch khám",
@@ -61,8 +64,8 @@ test.describe("home page", () => {
 
 test.describe("specialty pages", () => {
   for (const [path, doctor, key] of [
-    ["/san-khoa", "BS. Vũ Duy Minh", "obstetrics"],
-    ["/nhi-khoa", "BS. Nguyễn Thị Thanh Xuân", "pediatrics"],
+    ["/san-khoa", "BS.CKII Vũ Duy Minh", "obstetrics"],
+    ["/nhi-khoa", "BS.CKI Nguyễn Thị Thanh Xuân", "pediatrics"],
   ] as const) {
     test(`${path} introduces the specialty and links its doctor`, async ({ page }, testInfo) => {
       await page.goto(path);
@@ -100,8 +103,8 @@ test.describe("specialty pages", () => {
 
 test.describe("doctors", () => {
   for (const [slug, name, specialty, index] of [
-    ["vu-duy-minh", "BS. Vũ Duy Minh", "Sản khoa", 0],
-    ["nguyen-thi-thanh-xuan", "BS. Nguyễn Thị Thanh Xuân", "Nhi khoa", 1],
+    ["vu-duy-minh", "BS.CKII Vũ Duy Minh", "Sản khoa", 0],
+    ["nguyen-thi-thanh-xuan", "BS.CKI Nguyễn Thị Thanh Xuân", "Nhi khoa", 1],
   ] as const) {
     test(`/bac-si/${slug} shows name, specialty and booking`, async ({ page }, testInfo) => {
       await page.goto(`/bac-si/${slug}`);

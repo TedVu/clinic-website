@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getContent, getDoctor } from "@/content";
+import { fill } from "@/lib/content-helpers";
 import { physicianJsonLd } from "@/lib/schema-org";
 import { getDictionary } from "@/locales";
 import { doctorHref, href, type Locale } from "@/lib/routes";
@@ -11,12 +12,13 @@ import { PageShell } from "../PageShell";
 export function DoctorPage({ locale, slug }: { locale: Locale; slug: string }) {
   const doctor = getDoctor(slug, locale);
   if (!doctor) notFound();
-  const { clinic, copy } = getContent(locale);
+  const { clinic, copy, specialties } = getContent(locale);
   const t = getDictionary(locale);
+  const jobTitle = fill(t.doctor.jobTitle, { specialty: specialties[doctor.specialty].name });
 
   return (
     <PageShell locale={locale} current="doctors">
-      <JsonLd data={physicianJsonLd(doctor, clinic)} />
+      <JsonLd data={physicianJsonLd(doctor, clinic, jobTitle)} />
       <div className="container-page pb-16 pt-8 md:pb-24 md:pt-10">
         <Breadcrumbs
           locale={locale}

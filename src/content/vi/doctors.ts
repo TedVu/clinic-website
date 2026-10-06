@@ -1,3 +1,4 @@
+import { pending } from "../pending";
 import type { Doctor } from "../schema";
 
 // Sources: the clinic's previous website and Facebook page, the Sở Y tế practising-certificate listing,
@@ -6,7 +7,7 @@ import type { Doctor } from "../schema";
 export const doctors: Doctor[] = [
   {
     slug: "vu-duy-minh",
-    title: "BS.",
+    title: "BS.CKII",
     name: "Vũ Duy Minh",
     specialty: "obstetrics",
     portrait: { image: "bs-vu-duy-minh", alt: "Chân dung BS. Vũ Duy Minh" },
@@ -32,10 +33,12 @@ export const doctors: Doctor[] = [
       "Kế hoạch hóa gia đình",
       "Tầm soát ung thư cổ tử cung",
     ],
+    // Checked October 2026: shows the clinic's address and phone.
+    profiles: ["https://khamdinhkydanang.com/bac-si-ckii-vu-duy-minh-chuyen-khoa-san-phu/"],
   },
   {
     slug: "nguyen-thi-thanh-xuan",
-    title: "BS.",
+    title: "BS.CKI",
     name: "Nguyễn Thị Thanh Xuân",
     specialty: "pediatrics",
     portrait: { image: "bs-nguyen-thi-thanh-xuan", alt: "Chân dung BS. Nguyễn Thị Thanh Xuân" },
@@ -53,5 +56,6 @@ export const doctors: Doctor[] = [
     ],
     affiliations: ["Trung tâm Y tế Quận 3", "Phòng khám đa khoa Hạnh Phúc"],
     interests: ["Bệnh hô hấp ở trẻ sơ sinh và trẻ nhỏ"],
+    profiles: pending("Link hồ sơ của BS. Nguyễn Thị Thanh Xuân trên các trang danh bạ"),
   },
 ];

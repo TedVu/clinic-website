@@ -4,7 +4,9 @@ import { href } from "@/lib/routes";
 export const clinic: Clinic = {
   // Exactly as on the Google Business Profile, so search engines match the two.
   name: "Phòng khám sản nhi 611/95 Điện Biên Phủ TP.HCM",
+  shortName: "Sản Nhi Quận 3",
   descriptor: "Phòng khám Sản – Nhi",
+  district: "Quận 3",
   address: {
     street: "611/95 Điện Biên Phủ",
     // Formerly Phường 1, Quận 3 (before the 2025 ward merger); matches the Google Maps listing.
@@ -36,5 +38,17 @@ export const clinic: Clinic = {
       alt: "Mặt tiền phòng khám tại 611/95 Điện Biên Phủ, biển hiệu ghi BS. Duy Minh – Sản phụ khoa và BS. Thanh Xuân – Nhi khoa",
     },
     interior: { image: "phong-kham-ben-trong", alt: "BS. Nguyễn Thị Thanh Xuân tại phòng khám" },
+  },
+  profiles: {
+    // Supplied October 2026. The share link (share.google/hbMEMzaF2q0vSY6Ep) resolves to this
+    // Knowledge Graph entity, whose name matches clinic.name; this is its stable form.
+    googleBusiness: "https://www.google.com/search?kgmid=/g/11sjytfnyy",
+    // The clinic's page under its earlier name, "Phòng khám Sản phụ khoa & Siêu âm Bác sĩ Vũ Duy Minh".
+    facebook: "https://www.facebook.com/bsvuduyminh/",
+    // Supplied by the clinic owner (October 2026). mamnon.com.vn checked: shows 611/95 Điện Biên Phủ.
+    directories: [
+      "https://mamnon.com.vn/danh-ba/tp-ho-chi-minh/quan-3/co-so/25165-phong-kham-san-phu-khoa-sieu-am-bac-si-vu-duy-minh",
+      "https://kiddihub.com/chi-tiet/phong-kham-san-phu-khoa-sieu-am-bac-si-vu-duy-minh",
+    ],
   },
 };

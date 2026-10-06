@@ -42,6 +42,7 @@ Mỗi bác sĩ tự cung cấp và xác nhận thông tin của mình. Chỉ ghi
 | Kinh nghiệm lâm sàng của BS. Vũ Duy Minh | Mỗi vị trí một dòng | `doctors.vu-duy-minh.experience` |
 | Nơi công tác, bệnh viện liên kết của BS. Vũ Duy Minh | Chỉ ghi nơi đang hoặc đã thực sự công tác | `doctors.vu-duy-minh.affiliations` |
 | Lĩnh vực chuyên môn quan tâm của BS. Vũ Duy Minh | | `doctors.vu-duy-minh.interests` |
+| Link hồ sơ của BS. Vũ Duy Minh trên các trang danh bạ | Trang nói về **bác sĩ**, không phải về phòng khám. Mở từng link để chắc chắn đúng người | `doctors.vu-duy-minh.profiles` |
 
 ### BS. Nguyễn Thị Thanh Xuân — Nhi khoa
 
@@ -54,6 +55,7 @@ Mỗi bác sĩ tự cung cấp và xác nhận thông tin của mình. Chỉ ghi
 | Kinh nghiệm lâm sàng của BS. Nguyễn Thị Thanh Xuân | Mỗi vị trí một dòng | `doctors.nguyen-thi-thanh-xuan.experience` |
 | Nơi công tác, bệnh viện liên kết của BS. Nguyễn Thị Thanh Xuân | Chỉ ghi nơi đang hoặc đã thực sự công tác | `doctors.nguyen-thi-thanh-xuan.affiliations` |
 | Lĩnh vực chuyên môn quan tâm của BS. Nguyễn Thị Thanh Xuân | | `doctors.nguyen-thi-thanh-xuan.interests` |
+| Link hồ sơ của BS. Nguyễn Thị Thanh Xuân trên các trang danh bạ | Trang nói về **bác sĩ**, không phải về phòng khám. Mở từng link để chắc chắn đúng người | `doctors.nguyen-thi-thanh-xuan.profiles` |
 
 ## C. Thông tin phòng khám bổ sung
 
@@ -67,6 +69,9 @@ Mỗi bác sĩ tự cung cấp và xác nhận thông tin của mình. Chỉ ghi
 | Giấy tờ cần mang theo khi đi khám | Ví dụ: sổ khám thai, kết quả xét nghiệm cũ, sổ tiêm chủng của bé | `clinic.whatToBring` |
 | Ảnh phòng khám hoặc ảnh gia đình (ảnh thật, tự nhiên) | Ảnh chính ở trang chủ — xem phần E | `clinic.photos.hero` |
 | Ảnh không gian bên trong phòng khám | Hiện ở trang Phòng khám | `clinic.photos.interior` |
+| Link Google Business Profile của phòng khám | Giúp Google hiểu website và trang Google Maps là cùng một phòng khám | `clinic.profiles.googleBusiness` |
+| Link Fanpage Facebook của phòng khám | Chỉ fanpage do phòng khám quản lý | `clinic.profiles.facebook` |
+| Link trang của phòng khám trên các trang danh bạ (YouMed, Doctogo…) | Mở từng link để chắc chắn đúng phòng khám; link sai còn tệ hơn bỏ trống | `clinic.profiles.directories` |
 
 ## D. Xác nhận dịch vụ
 

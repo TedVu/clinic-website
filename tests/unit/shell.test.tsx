@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { completeContent } from "./fixtures";
+import { completeContent, testManifest } from "./fixtures";
 
 // Render shell components against content with every launch-blocking fact supplied.
 vi.mock("@/content", async (importOriginal) => {
@@ -30,7 +30,7 @@ describe("Footer", () => {
   it("shows the same name, address and phone as the structured data", () => {
     vi.stubEnv("SITE_ENV", "production");
     const html = renderToStaticMarkup(<Footer locale="vi" />);
-    const clinic = medicalClinicJsonLd(completeContent().clinic) as {
+    const clinic = medicalClinicJsonLd(completeContent().clinic, [], testManifest()) as {
       name: string;
       telephone: string;
       address: { streetAddress: string; addressLocality: string; addressRegion: string };
@@ -45,8 +45,8 @@ describe("Footer", () => {
     vi.stubEnv("SITE_ENV", "production");
     const html = renderToStaticMarkup(<Footer locale="vi" />);
     expect(html).toContain("Thứ Hai – Thứ Sáu: 08:00 – 17:00");
-    expect(html).toContain("BS. Vũ Duy Minh");
-    expect(html).toContain("BS. Nguyễn Thị Thanh Xuân");
+    expect(html).toContain("BS.CKII Vũ Duy Minh");
+    expect(html).toContain("BS.CKI Nguyễn Thị Thanh Xuân");
     expect(html).toContain('href="/chinh-sach-bao-mat"');
     expect(html).toContain("không thay thế cho việc thăm khám");
     expect(html).not.toContain("data-pending");

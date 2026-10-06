@@ -21,6 +21,14 @@ export function brandName(locale: Locale = DEFAULT_LOCALE): string {
   return isSupplied(clinic.name) ? clinic.name : clinic.descriptor;
 }
 
+/**
+ * Short brand for the page-title suffix. Titles stay within what search results display, while
+ * the full name (brandName) stays everywhere the clinic must match its Google Business Profile.
+ */
+export function shortBrand(locale: Locale = DEFAULT_LOCALE): string {
+  return getContent(locale).clinic.shortName;
+}
+
 export const OG_LOCALE: Record<Locale, string> = { vi: "vi_VN" };
 
 /** Share image generated at build time by src/app/og.png/route.tsx. */
@@ -30,7 +38,7 @@ type PageMetaInput = {
   path: string;
   title: string;
   description: string;
-  /** Use the title as-is instead of appending " | <clinic name>". */
+  /** Use the title as-is instead of appending " | <short brand>". */
   absoluteTitle?: boolean;
   locale?: Locale;
 };
@@ -42,7 +50,7 @@ export function buildMetadata({
   absoluteTitle,
   locale = DEFAULT_LOCALE,
 }: PageMetaInput): Metadata {
-  const fullTitle = absoluteTitle ? title : `${title} | ${brandName(locale)}`;
+  const fullTitle = absoluteTitle ? title : `${title} | ${shortBrand(locale)}`;
   return {
     title: { absolute: fullTitle },
     description,

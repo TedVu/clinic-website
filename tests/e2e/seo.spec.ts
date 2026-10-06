@@ -3,10 +3,30 @@ import { content, isProductionBuild, isSupplied, jsonLd, ROUTES } from "./helper
 
 test("doctor page title and canonical", async ({ page }) => {
   await page.goto("/bac-si/vu-duy-minh");
-  await expect(page).toHaveTitle(/BS\. Vũ Duy Minh.*Sản khoa.*TP\. Hồ Chí Minh/);
+  await expect(page).toHaveTitle(/^BS\.CKII Vũ Duy Minh.*Sản khoa/);
   const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
   expect(canonical).toMatch(/\/bac-si\/vu-duy-minh$/);
 });
+
+test("home page H1 names both specialties and the district", async ({ page }) => {
+  await page.goto("/");
+  const h1 = page.locator("h1");
+  await expect(h1).toHaveCount(1);
+  for (const term of ["Sản", "Nhi", content.clinic.district]) await expect(h1).toContainText(term);
+});
+
+for (const doctor of content.doctors) {
+  test(`${doctor.slug}: H1, title and Physician JSON-LD share the credential prefix`, async ({
+    page,
+  }) => {
+    const fullName = `${doctor.title} ${doctor.name}`;
+    await page.goto(`/bac-si/${doctor.slug}`);
+    await expect(page.locator("h1")).toHaveText(fullName);
+    expect(await page.title()).toMatch(new RegExp(`^${fullName.replace(/\./g, "\\.")} `));
+    const physician = (await jsonLd(page)).find((b) => [b["@type"]].flat().includes("Physician"));
+    expect(physician!.name).toBe(fullName);
+  });
+}
 
 test("every page has a unique title and description", async ({ page }) => {
   const titles = new Set<string>();
@@ -87,9 +107,9 @@ test.describe("structured data", () => {
 
   test("doctor page describes a Physician linked to the clinic", async ({ page }) => {
     await page.goto("/bac-si/nguyen-thi-thanh-xuan");
-    const physician = (await jsonLd(page)).find((b) => b["@type"] === "Physician");
+    const physician = (await jsonLd(page)).find((b) => [b["@type"]].flat().includes("Physician"));
     expect(physician).toMatchObject({
-      name: "BS. Nguyễn Thị Thanh Xuân",
+      name: "BS.CKI Nguyễn Thị Thanh Xuân",
       medicalSpecialty: "https://schema.org/Pediatric",
       worksFor: { "@id": expect.stringMatching(/#clinic$/) },
     });
